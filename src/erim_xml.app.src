@@ -1,0 +1,13 @@
+% -*- mode: erlang -*-
+{application, erim_xml, [
+    {description, "XML library"},
+    {vsn, git},
+    {modules, []},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib
+    ]}
+]}.
+
+% vim:ft=erlang:ts=8:
