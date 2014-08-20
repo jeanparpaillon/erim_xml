@@ -40,7 +40,7 @@ typedef int ErlDrvSSizeT;
  * ErlDrvEntry. One use it like this:
  *     static ErlDrvEntry driver_entry = {
  *             ...
- *             S(DRIVER_NAME),)
+ *             S(DRIVER_NAME),
  *             ...
  *     };
  */
