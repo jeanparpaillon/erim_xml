@@ -626,7 +626,7 @@ start_parser() ->
 start_parser(Options) ->
     %% Start a port driver instance.
     Driver_Name = get_engine_from_options(Options),
-    Port = erim_internals:open_port(Driver_Name),
+    Port = erim_xml_internals:open_port(Driver_Name),
 
     %% Initialize port.
     try
@@ -636,7 +636,7 @@ start_parser(Options) ->
         reset_parser2(Parser, New_Options)
     catch
         _:Exception ->
-            erim_internals:close_port(Port),
+            erim_xml_internals:close_port(Port),
             throw(Exception)
     end.
 
@@ -682,7 +682,7 @@ reset_parser2(Parser, Options) ->
 
 stop_parser(#xml_parser{port = Port} = _Parser) ->
     unlink(Port),
-    erim_internals:close_port(Port),
+    erim_xml_internals:close_port(Port),
     ok.
 
 %% @spec (Parser, Data) -> [XML_Element] | continue
@@ -932,9 +932,9 @@ attribute(Name, Value) when is_binary(Name) ->
     set_attr_value(#xmlattr{name = Name}, Value).
 
 set_attr_value(#xmlattr{} = Attr, Value) ->
-    Attr#xmlattr{value = erim_utils:any_to_binary(Value)};
+    Attr#xmlattr{value = erim_xml_utils:any_to_binary(Value)};
 set_attr_value({Name, _}, Value) ->
-    {Name, erim_utils:any_to_list(Value)}.
+    {Name, erim_xml_utils:any_to_list(Value)}.
 
 %% @spec (NS, Name, Value) -> Attr
 %%     NS = atom() | string() | undefined
@@ -2635,7 +2635,7 @@ map2(_Fun, _XML_Element, []) ->
 -spec(cdata/1 :: (binary() | string() | atom() | integer()) -> xmlcdata()).
 
 cdata(CData) ->
-    #xmlcdata{cdata = erim_utils:any_to_binary(CData)}.
+    #xmlcdata{cdata = erim_xml_utils:any_to_binary(CData)}.
 
 %% @spec (Children) -> CData
 %%     Children = [xmlel() | xmlel_old() | xmlcdata()] | undefined
@@ -3729,7 +3729,7 @@ deindent_children(Children) ->
 deindent_children2([], Result) ->
     lists:reverse(Result);
 deindent_children2([#xmlcdata{cdata = CData} | Rest], Result) ->
-    New_Child = cdata(erim_utils:strip(CData)),
+    New_Child = cdata(erim_xml_utils:strip(CData)),
     deindent_children2(Rest, [New_Child | Result]);
 deindent_children2([Child | Rest], Result)
   when is_record(Child, xmlel); is_record(Child, xmlelement) ->
@@ -3786,12 +3786,12 @@ indent_children2([], _Indent, _Previous_Total, _Before, _End, []) ->
     [];
 indent_children2([#xmlcdata{cdata = CData}], _Indent, _Previous_Total,
 		 _Before, _End, []) ->
-    [cdata(erim_utils:strip(CData))];
+    [cdata(erim_xml_utils:strip(CData))];
 indent_children2([], _Indent, _Previous_Total, _Before, End, Result) ->
     lists:reverse([End | Result]);
 indent_children2([#xmlcdata{cdata = CData} | Rest], Indent, Previous_Total,
 		 Before, End, Result) ->
-    New_Child = cdata(erim_utils:strip(CData)),
+    New_Child = cdata(erim_xml_utils:strip(CData)),
     New_Result = [New_Child, Before | Result],
     indent_children2(Rest, Indent, Previous_Total, Before, End, New_Result);
 indent_children2([Child | Rest], Indent, Previous_Total, Before, End, Result)
@@ -4186,13 +4186,13 @@ handle_call({register_engine,
 	%% Load the driver now.
         case Driver_Path of
             undefined ->
-                erim_internals:load_driver(Driver_Name);
+                erim_xml_internals:load_driver(Driver_Name);
             _ ->
-                erim_internals:load_driver(Driver_Name, [Driver_Path])
+                erim_xml_internals:load_driver(Driver_Name, [Driver_Path])
         end,
         try
 	    %% Start a port for management purpose.
-            Port = erim_internals:open_port(Driver_Name),
+            Port = erim_xml_internals:open_port(Driver_Name),
 	    %% Send him the known lists.
             Fun1 = fun(List_Name, List, {P, Type, Acc}) ->
 			   Items = dict:fetch_keys(List),
@@ -4204,14 +4204,14 @@ handle_call({register_engine,
 		   end,
             case dict:fold(Fun1, {Port, nss, ok}, Known_NSs) of
                 {_Port1, {error, Reason1}} ->
-                    erim_internals:close_port(Port),
+                    erim_xml_internals:close_port(Port),
                     throw(Reason1);
                 _ ->
                     ok
             end,
             case dict:fold(Fun1, {Port, names, ok}, Known_Names) of
                 {_Port2, {error, Reason2}} ->
-                    erim_internals:close_port(Port),
+                    erim_xml_internals:close_port(Port),
                     throw(Reason2);
                 _ ->
                     ok
@@ -4222,13 +4222,13 @@ handle_call({register_engine,
                 ets:insert(?ENGINES_REGISTRY, Engine1)
             catch
                 _:Exception2 ->
-                    erim_internals:close_port(Port),
+                    erim_xml_internals:close_port(Port),
                     throw(Exception2)
             end,
             {reply, ok, State}
         catch
             _:Exception1 ->
-                erim_internals:unload_driver(Driver_Name),
+                erim_xml_internals:unload_driver(Driver_Name),
                 {reply, {error, Exception1}, State}
         end
     catch
