@@ -33,7 +33,7 @@
 -type(xmldefaultnss()  :: [xmldefaultns()]).
 -type(xmlprefixednss() :: [{xmlname(), string()}]).
 
-% Path description (to be used in exmpp_xml:get_path/2).
+% Path description (to be used in erim_xml:get_path/2).
 -type(xmlpathcomponent() ::
   {element, xmlname()} |
   {element, xmlname(), xmlname()} |
@@ -108,16 +108,16 @@
 % --------------------------------------------------------------------
 
 -define(XMLEL1(Name),
-  exmpp_xml:element(Name)).
+  erim_xml:element(Name)).
 -define(XMLEL2(NS, Name),
-  exmpp_xml:element(NS, Name)).
+  erim_xml:element(NS, Name)).
 -define(XMLEL4(NS, Name, Attrs, Children),
-  exmpp_xml:element(NS, Name, Attrs, Children)).
+  erim_xml:element(NS, Name, Attrs, Children)).
 
 -define(XMLATTR(Name, Value),
-  exmpp_xml:attribute(Name, Value)).
+  erim_xml:attribute(Name, Value)).
 
 -define(XMLCDATA(CData),
-  exmpp_xml:cdata(CData)).
+  erim_xml:cdata(CData)).
 
 -endif.
