@@ -10,6 +10,7 @@ c_src/.deps/
 c_src/.libs/
 c_src/*.la
 c_src/*.lo
+c_src/*.d
 config.*
 configure
 ebin/exmpp.app
@@ -33,3 +34,4 @@ deps/
 /priv/lib/*.so
 ebin/erim_xml.app
 /doc
+/.rebar
