@@ -22,7 +22,6 @@
 %% It's not intended to be used directly.
 %% </p>
 -module(erim_xml_app).
--compile({parse_transform, lager_transform}).
 
 -behaviour(application).
 
@@ -75,9 +74,9 @@ stop(_State) ->
 %% @hidden
 
 config_change(Changed, New, Removed) ->
-    lager:error("Config change:~n"
-		"Changed: ~p~n"
-		"New: ~p~n"
-		"Removed: ~p~n",
-		[Changed, New, Removed]),
+    error_logger:error_msg("Config change:~n"
+			   "Changed: ~p~n"
+			   "New: ~p~n"
+			   "Removed: ~p~n",
+			   [Changed, New, Removed]),
     ok.

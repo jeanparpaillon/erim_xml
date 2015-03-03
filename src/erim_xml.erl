@@ -35,7 +35,6 @@
 %% </p>
 
 -module(erim_xml).
--compile({parse_transform, lager_transform}).
 
 -behaviour(gen_server).
 
@@ -451,8 +450,8 @@ register_builtin_engine(Name, Driver) ->
         register_engine(Name, Driver)
     catch
         throw:{port_driver, load, Reason, Driver_Name} ->
-            lager:warning("Failed to load driver \"~s\": ~s~n",
-			  [Driver_Name, erl_ddll:format_error(Reason)])
+            error_logger:warning_msg("Failed to load driver \"~s\": ~s~n",
+				     [Driver_Name, erl_ddll:format_error(Reason)])
     end.
 
 load_builtin_known_lists() ->
@@ -4110,7 +4109,7 @@ control(Port, Command, Data) ->
 		       _:_ ->
 			   Other
 		   end,
-            lager:error(
+            error_logger:error_msg(
               "erim_xml: Unexpected return value from '~s':~n~p~n",
               [Driver_Name, Term]),
             {error, {unexpected, Term}}
@@ -4274,29 +4273,29 @@ handle_call({add_known, Type, List_Name, New_Items}, _From, State) ->
     end;
 
 handle_call(Request, From, State) ->
-    lager:info("~p:handle_call/3:~n- Request: ~p~n- From: ~p~n"
-	       "- State: ~p~n", [?MODULE, Request, From, State]),
+    error_logger:info_msg("~p:handle_call/3:~n- Request: ~p~n- From: ~p~n"
+			  "- State: ~p~n", [?MODULE, Request, From, State]),
     {reply, ok, State}.
 
 %% @hidden
 
 handle_cast(Request, State) ->
-    lager:info("~p:handle_cast/2:~n- Request: ~p~n"
-	       "- State: ~p~n", [?MODULE, Request, State]),
+    error_logger:info_msg("~p:handle_cast/2:~n- Request: ~p~n"
+			  "- State: ~p~n", [?MODULE, Request, State]),
     {noreply, State}.
 
 %% @hidden
 
 handle_info(Info, State) ->
-    lager:info("~p:handle_info/2:~n- Info: ~p~n"
+    error_logger:info_msg("~p:handle_info/2:~n- Info: ~p~n"
 	       "- State: ~p~n", [?MODULE, Info, State]),
     {noreply, State}.
 
 %% @hidden
 
 code_change(Old_Vsn, State, Extra) ->
-    lager:info("~p:code_change/3:~n- Old_Vsn: ~p~n- Extra: ~p~n"
-	       "- State: ~p~n", [?MODULE, Old_Vsn, Extra, State]),
+    error_logger:info_msg("~p:code_change/3:~n- Old_Vsn: ~p~n- Extra: ~p~n"
+			  "- State: ~p~n", [?MODULE, Old_Vsn, Extra, State]),
     {ok, State}.
 
 %% @hidden
