@@ -1,0 +1,29 @@
+% -*- mode: erlang -*-
+{erl_opts, [debug_info,
+	    {src_dirs, ["src"]},
+	    {d, 'HAVE_EXPAT', @HAVE_EXPAT@},
+	    {d, 'HAVE_LIBXML2', @HAVE_LIBXML2@},
+	    {i, "../include"}
+	   ]}.
+
+{require_min_otp_vsn, "R12B"}.
+
+{clean_files, ["src/erim_known_attrs.erl",
+	       "src/erim_known_elems.erl",
+	       "src/erim_known_nss.erl",
+	       "include/internal/erim_known_attrs.hrl",
+	       "include/internal/erim_known_elems.hrl",
+	       "include/internal/erim_known_nss.hrl"]}.
+
+{pre_hooks, [
+	     {compile, "priv/erim_known.es nss include/internal/erim_known_nss.in"},
+	     {compile, "priv/erim_known.es elems include/internal/erim_known_elems.in"},
+	     {compile, "priv/erim_known.es attrs include/internal/erim_known_attrs.in"}
+	    ]}.
+
+{deps, []}.
+
+%% EDoc options
+{edoc_opts, [{subpackages, true},
+	     {packages, false}
+	    ]}.
