@@ -7,7 +7,7 @@
 #
 basedir=$(dirname $0)
 privdir=${basedir}/priv
-hdrdir=${basedir}/include/internal
+hdrdir=${basedir}/priv
 
 known_nss_src=${hdrdir}/erim_known_nss.in
 known_elems_src=${hdrdir}/erim_known_elems.in
