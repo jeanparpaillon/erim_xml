@@ -4,12 +4,12 @@
 ebin/exmpp.app
 ebin/exmpp.appup
 ebin/*.beam
-include/internal/exmpp_known_attrs.hrl
-include/internal/exmpp_known_elems.hrl
-include/internal/exmpp_known_nss.hrl
-src/exmpp_known_attrs.erl
-src/exmpp_known_elems.erl
-src/exmpp_known_nss.erl
+/include/internal/erim_known_attrs.hrl
+/include/internal/erim_known_elems.hrl
+/include/internal/erim_known_nss.hrl
+/src/erim_known_attrs.erl
+/src/erim_known_elems.erl
+/src/erim_known_nss.erl
 stamp-h1
 testsuite/etest
 deps/
@@ -20,6 +20,8 @@ ebin/erim_xml.app
 /rebar.lock
 /_build
 /Makefile
+/c_src/Makefile
+/priv/Makefile
 /aclocal.m4
 /autom4te.cache/
 /c_src/Makefile

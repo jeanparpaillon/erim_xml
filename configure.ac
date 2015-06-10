@@ -87,6 +87,7 @@ AS_IF([test "$HAVE_EXPAT" != "yes" -a "$enable_xml2" != "yes"], [
 
 AC_CONFIG_FILES([
 	Makefile
+	priv/Makefile
 	c_src/Makefile
 	rebar.config
 ])

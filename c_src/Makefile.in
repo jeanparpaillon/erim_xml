@@ -5,12 +5,12 @@ CC= @CC@
 HAVE_LIBXML2 = @HAVE_LIBXML2@
 HAVE_EXPAT = @HAVE_EXPAT@
 
-builddir = $(top_builddir)/priv/lib
+builddir = $(REBAR_BUILD_DIR)/lib/erim_xml/priv/lib
 ports =
-ifeq (HAVE_LIBXML2, "true")
+ifeq ($(HAVE_LIBXML2),true)
 ports += $(builddir)/erim_xml_libxml2.so
 endif
-ifeq (HAVE_EXPAT, "true")
+ifeq ($(HAVE_EXPAT),true)
 ports += $(builddir)/erim_xml_expat.so $(builddir)/erim_xml_expat_legacy.so
 endif
 
@@ -31,9 +31,7 @@ EXPAT_LDFLAGS = @EXPAT_LDFLAGS@
 xml2_CFLAGS = @xml2_CFLAGS@
 xml2_LIBS = @xml2_LIBS@
 
-all: compile
-
-compile: $(ports)
+all: $(ports)
 
 $(builddir)/erim_xml_expat.so: erim_driver.o erim_xml.o erim_xml_expat.o
 	@mkdir -p $(builddir)
@@ -51,5 +49,6 @@ $(builddir)/erim_xml_libxml2.so: erim_driver.o erim_xml.o erim_xml_libxml2.o
 	$(CC) $(CFLAGS) $(xml2_CFLAGS) $(EXPAT_CFLAGS) -c $<
 
 clean:
+	-test -n "$(ports)" && rm -f $(ports)
 
 .PHONY: all compile clean
