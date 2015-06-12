@@ -28,5 +28,4 @@ ebin/erim_xml.app
 /config.log
 /config.status
 /configure
-/m4/
 /rebar.config
