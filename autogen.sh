@@ -2,5 +2,10 @@
 
 set -e
 
-autoreconf -ivf
-$(dirname $0)/configure $@
+(
+    cd $(dirname $0) && \
+	autoreconf -ivf && \
+	./configure $@
+)
+
+exit 0
