@@ -19,13 +19,3 @@ ebin/erim_xml.app
 /.rebar
 /rebar.lock
 /_build
-/Makefile
-/c_src/Makefile
-/priv/Makefile
-/aclocal.m4
-/autom4te.cache/
-/c_src/Makefile
-/config.log
-/config.status
-/configure
-/rebar.config
