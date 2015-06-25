@@ -1,25 +1,30 @@
 APP = erim_xml
 REBAR_ROOT_DIR ?= ..
+REBAR_SRC_DIRS ?= $(REBAR_ROOT_DIR)/src
+
+srcdir = $(shell echo $(REBAR_SRC_DIRS) | awk -F ':' '{print $$1}')
+includedir = $(abspath $(srcdir)/../include)
+privdir = $(abspath $(srcdir)/../priv)
 
 constfiles = \
-	$(REBAR_ROOT_DIR)/src/erim_known_attrs.erl \
-	$(REBAR_ROOT_DIR)/src/erim_known_elems.erl \
-	$(REBAR_ROOT_DIR)/src/erim_known_nss.erl \
-	$(REBAR_ROOT_DIR)/include/internal/erim_known_attrs.hrl \
-	$(REBAR_ROOT_DIR)/include/internal/erim_known_elems.hrl \
-	$(REBAR_ROOT_DIR)/include/internal/erim_known_nss.hrl
+	$(srcdir)/erim_known_attrs.erl \
+	$(srcdir)/erim_known_elems.erl \
+	$(srcdir)/erim_known_nss.erl \
+	$(includedir)/internal/erim_known_attrs.hrl \
+	$(includedir)/internal/erim_known_elems.hrl \
+	$(includedir)/internal/erim_known_nss.hrl
 
 CLEANFILES = $(constfiles)
 
-build=$(REBAR_ROOT_DIR)/priv/erim_known.es
+build=$(privdir)/erim_known.es
 
 all: $(constfiles)
 
-$(REBAR_ROOT_DIR)/src/erim_known_%.erl: erim_known_%.in $(build)
+$(srcdir)/erim_known_%.erl: erim_known_%.in $(build)
 	@mkdir -p $(@D)
 	$(build) $* erl $< > $@
 
-$(REBAR_ROOT_DIR)/include/internal/erim_known_%.hrl: erim_known_%.in $(build)
+$(includedir)/internal/erim_known_%.hrl: erim_known_%.in $(build)
 	@mkdir -p $(@D)
 	$(build) $* hrl $< > $@
 
