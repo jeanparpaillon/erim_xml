@@ -19,3 +19,4 @@ ebin/erim_xml.app
 /.rebar
 /rebar.lock
 /_build
+/.econfig
