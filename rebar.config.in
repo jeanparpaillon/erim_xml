@@ -1,0 +1,35 @@
+% -*- mode: erlang -*-
+{erl_opts, [
+	    {{#erim_xml.build_expat}}
+	    {d, 'HAVE_EXPAT', true},
+	    {{/erim_xml.build_expat}}
+	    {{#erim_xml.build_xml}}
+	    {d, 'HAVE_LIBXML2', true},
+	    {{/erim_xml.build_xml}}
+	    debug_info,
+	    {src_dirs, ["src"]},
+	    {i, "../include"}
+	   ]}.
+
+{pre_hooks, 
+ [
+  {{#erim_xml.build_expat}}
+  {compile, "make -C priv erim_xml_expat.so erim_xml_expat_legacy.so EXPAT_CFLAGS=\"-I{{erim_xml.prefix_libexpat}}/include\" EXPAT_LDFLAGS=\"-L{{erim_xml.prefix_libexpat}}/libs -lexpat\""},
+  {{/erim_xml.build_expat}}
+  {{#erim_xml.build_xml}}
+  {compile, "make -C priv erim_xml_libxml2.so XML2_CFLAGS=\"-I{{erim_xml.prefix_libxml2}}/include\" XML2_LDFLAGS=\"-L{{erim_xml.prefix_libxml2}}/lib -lxml2\""},
+  {{/erim_xml.build_xml}}
+  {compile, "make -C priv"}
+ ]}.
+
+{post_hooks,
+ [
+  {clean, "make -C c_src clean"},
+  {clean, "make -C priv clean"}
+ ]
+}.
+
+%% EDoc options
+{edoc_opts, [{subpackages, true},
+	     {packages, false}
+	    ]}.

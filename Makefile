@@ -5,10 +5,21 @@ REBAR = $(shell which rebar3 || $(REBAR_ROOT_DIR)/rebar3)
 
 all: compile
 
-compile:
+compile: configure
 	$(REBAR) compile
+
+configure: .econfig
+
+.econfig: rebar.config rebar.lock
+	$(REBAR) econfig configure
+
+rebar.lock: rebar.config
+	$(REBAR) lock
 
 clean:
 	$(REBAR) clean
 
-.PHONY: all compile clean
+distclean: clean
+	-rm -f .econfig
+
+.PHONY: all configure compile clean
