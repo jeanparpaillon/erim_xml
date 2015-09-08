@@ -11,23 +11,46 @@
 	    {i, "../include"}
 	   ]}.
 
-{pre_hooks, 
+{port_specs, 
  [
   {{#erim_xml.build_expat}}
-  {compile, "make -C priv erim_xml_expat.so erim_xml_expat_legacy.so EXPAT_CFLAGS=\"-I{{erim_xml.prefix_libexpat}}/include\" EXPAT_LDFLAGS=\"-L{{erim_xml.prefix_libexpat}}/libs -lexpat\""},
+  {".*", "priv/lib/erim_xml_expat.so", 
+   ["c_src/erim_driver.c", "c_src/erim_xml.c", "c_src/erim_xml_expat.c"],
+   [{env, [
+	   {"CFLAGS", "$CFLAGS -I{{erim_xml.prefix_libexpat}}/include"},
+	   {"LDFLAGS", "$LDFLAGS -L{{erim_xml.prefix_libexpat}}/libs -lexpat"}
+	  ]}
+   ]}
+ ,{".*", "priv/lib/erim_xml_expat_legacy.so",
+   ["c_src/erim_driver.c", "c_src/erim_xml.c", "c_src/erim_xml_legacy.c"],
+   [{env, [
+	   {"CFLAGS", "$CFLAGS -I{{erim_xml.prefix_libexpat}}/include"},
+	   {"LDFLAGS", "$LDFLAGS -L{{erim_xml.prefix_libexpat}}/libs -lexpat"}
+	  ]}
+   ]}
   {{/erim_xml.build_expat}}
+
   {{#erim_xml.build_xml}}
-  {compile, "make -C priv erim_xml_libxml2.so XML2_CFLAGS=\"-I{{erim_xml.prefix_libxml2}}/include\" XML2_LDFLAGS=\"-L{{erim_xml.prefix_libxml2}}/lib -lxml2\""},
+ ,{".*", "priv/lib/erim_xml_libxml2.so", 
+   ["c_src/erim_driver.c", "c_src/erim_xml.c", "c_src/erim_libxml2.c"],
+   [{env, [
+	   {"CFLAGS", "$CFLAGS -I{{erim_xml.prefix_libxml2}}/include"},
+	   {"LDFLAGS", "$LDFLAGS -L{{erim_xml.prefix_libxml2}}/lib -lxml2"}
+	  ]}]}
   {{/erim_xml.build_xml}}
-  {compile, "make -C priv"}
  ]}.
 
-{post_hooks,
+{port_env, 
  [
-  {clean, "make -C c_src clean"},
+  {"CFLAGS", "$CFLAGS -O3 -std=c99 -finline-functions -Wall -Wmissing-prototypes -fPIC"},
+  {"LDFLAGS", "$LDFLAGS -shared"}
+ ]}.
+
+{pre_hooks, 
+ [
+  {compile, "make -C priv"},
   {clean, "make -C priv clean"}
- ]
-}.
+ ]}.
 
 %% EDoc options
 {edoc_opts, [{subpackages, true},

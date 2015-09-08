@@ -3,23 +3,28 @@ REBAR_BUILD_DIR ?= _build/default
 
 REBAR = $(shell which rebar3 || $(REBAR_ROOT_DIR)/rebar3)
 
+PLUGIN = _build/default/plugins/econfig/ebin/econfig.app
+
 all: compile
 
-compile: configure
+compile: template
 	$(REBAR) compile
 
-configure: .econfig
+template: rebar.config rebar.lock
+	$(REBAR) econfig template
 
-.econfig: rebar.config rebar.lock
+configure: rebar.config rebar.lock
 	$(REBAR) econfig configure
 
 rebar.lock: rebar.config
 	$(REBAR) lock
 
 clean:
+	-rm -f rebar.config.script
 	$(REBAR) clean
+	$(REBAR) econfig clean
 
 distclean: clean
 	-rm -f .econfig
 
-.PHONY: all configure compile clean
+.PHONY: all template configure compile clean
