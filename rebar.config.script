@@ -1,4 +1,0 @@
-code:add_patha(filename:join([filename:dirname(SCRIPT), "_build", "default", "plugins", "econfig", "ebin"])),
-try econfig_rebar:script(CONFIG, SCRIPT)
-catch error:undef -> CONFIG
-end.
