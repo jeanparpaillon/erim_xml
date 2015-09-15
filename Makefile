@@ -20,11 +20,11 @@ rebar.lock: rebar.config
 	$(REBAR) lock
 
 clean:
-	-rm -f rebar.config.script
 	$(REBAR) clean
 	$(REBAR) econfig clean
+	-rm -f rebar.config.script
 
 distclean: clean
 	-rm -f .econfig
 
-.PHONY: all template configure compile clean
+.PHONY: all template configure compile clean distclean
