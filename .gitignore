@@ -1,6 +1,7 @@
 *~
 *.beam
 *.o
+*.d
 ebin/exmpp.app
 ebin/exmpp.appup
 ebin/*.beam
