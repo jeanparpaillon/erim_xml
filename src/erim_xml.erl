@@ -425,8 +425,9 @@ start_link() ->
 -ifdef(HAVE_EXPAT).
 -define(REGISTER_EXPAT,
 	register_builtin_engine(expat, erim_xml_expat)).
--define(REGISTER_EXPAT_LEGACY,
-	register_builtin_engine(expat_legacy, erim_xml_expat_legacy)).
+%% -define(REGISTER_EXPAT_LEGACY,
+%% 	register_builtin_engine(expat_legacy, erim_xml_expat_legacy)).
+-define(REGISTER_EXPAT_LEGACY, ok).
 -else.
 -define(REGISTER_EXPAT, ok).
 -define(REGISTER_EXPAT_LEGACY, ok).
