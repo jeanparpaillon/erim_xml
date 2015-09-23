@@ -2,7 +2,13 @@ APP = erim_xml
 REBAR_ROOT_DIR ?= ..
 REBAR_SRC_DIRS = $(REBAR_ROOT_DIR)/src
 
-srcdir = $(shell echo $(REBAR_SRC_DIRS) | awk -F ':' '{print $$1}')
+srcdirfile = erim_xml.app.src
+srcdir = $(shell \
+	if test -e $(REBAR_ROOT_DIR)/src/$(srcdirfile); then \
+	  echo $(REBAR_ROOT_DIR)/src; \
+	else \
+	  echo $(REBAR_DEPS_DIR)/src; \
+	fi)
 includedir = $(abspath $(srcdir)/../include)
 privdir = $(abspath $(srcdir)/../priv)
 
