@@ -1,6 +1,6 @@
 APP = erim_xml
 REBAR_ROOT_DIR ?= ..
-REBAR_SRC_DIRS ?= $(REBAR_ROOT_DIR)/src
+REBAR_SRC_DIRS = $(REBAR_ROOT_DIR)/src
 
 srcdir = $(shell echo $(REBAR_SRC_DIRS) | awk -F ':' '{print $$1}')
 includedir = $(abspath $(srcdir)/../include)
