@@ -7,7 +7,7 @@ srcdir = $(shell \
 	if test -e $(REBAR_ROOT_DIR)/src/$(srcdirfile); then \
 	  echo $(REBAR_ROOT_DIR)/src; \
 	else \
-	  echo $(REBAR_DEPS_DIR)/src; \
+	  echo $(REBAR_DEPS_DIR)/erim_xml/src; \
 	fi)
 includedir = $(abspath $(srcdir)/../include)
 privdir = $(abspath $(srcdir)/../priv)
