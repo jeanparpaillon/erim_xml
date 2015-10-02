@@ -83,7 +83,6 @@ AS_IF([test "$HAVE_EXPAT" != "yes" -a "$enable_xml2" != "yes"], [
 AC_CONFIG_FILES([
 	Makefile
 	c_src/Makefile
-	priv/Makefile
 ])
 
 AC_OUTPUT

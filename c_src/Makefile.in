@@ -22,26 +22,27 @@ EXPAT_LDFLAGS = @EXPAT_LDFLAGS@
 xml2_CFLAGS = @xml2_CFLAGS@
 xml2_LIBS = @xml2_LIBS@
 
+CFLAGS += $(EXPAT_CFLAGS) $(xml2_CFLAGS)
+LDFLAGS += $(EXPAT_LDFLAGS) $(xml2_LIBS)
+
 all:: $(ports)
 
 $(builddir)/erim_xml_expat.so: erim_driver.o erim_xml.o erim_xml_expat.o
 	@mkdir -p $(builddir)
-	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
 
 $(builddir)/erim_xml_expat_legacy.so: erim_driver.o erim_xml.o erim_xml_legacy.o
 	@mkdir -p $(builddir)
-	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
 
 $(builddir)/erim_xml_libxml2.so: erim_driver.o erim_xml.o erim_xml_libxml2.o
 	@mkdir -p $(builddir)
-	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(xml2_LIBS) -o $@
-
-%.o: %.c
-	$(COMPILE_C) $(CFLAGS) $(xml2_CFLAGS) $(EXPAT_CFLAGS) -c $<
+	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(xml2_LIBS) -o $@
 
 clean:: clean-ports
 
 clean-ports:
+	-rm -f *.o
 	-test -n "$(ports)" && rm -f $(ports)
 
 .PHONY: clean-ports

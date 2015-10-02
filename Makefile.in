@@ -2,6 +2,21 @@ PROJECT = @PACKAGE_NAME@
 PROJECT_VERSION = @PACKAGE_VERSION@
 
 top_srcdir = @top_srcdir@
+includedir = $(top_srcdir)/include
+privdir = $(top_srcdir)/priv
+srcdir = $(top_srcdir)/src
+
+build = $(privdir)/erim_known.es
+
+gen_headers = \
+	$(includedir)/internal/erim_known_attrs.hrl \
+	$(includedir)/internal/erim_known_elems.hrl \
+	$(includedir)/internal/erim_known_nss.hrl
+
+gen_src = \
+	$(srcdir)/erim_known_attrs.erl \
+	$(srcdir)/erim_known_elems.erl \
+	$(srcdir)/erim_known_nss.erl
 
 HAVE_EXPAT = @HAVE_EXPAT@
 HAVE_LIBXML2 = @HAVE_LIBXML2@
@@ -15,13 +30,12 @@ endif
 
 include erlang.mk
 
-app:: ports known
+app:: ports
+
+$(PROJECT).d:: $(gen_src) $(gen_headers)
 
 ports:
 	$(MAKE) -C $(C_SRC_DIR)
-
-known:
-	$(MAKE) -C priv
 
 test-build:: ports
 
@@ -33,6 +47,15 @@ clean-ports:
 distclean:: distclean-known
 
 distclean-known::
-	$(MAKE) -C priv distclean
+	-rm -f $(gen_headers)
+	-rm -f $(gen_src)
+
+src/erim_known_%.erl: priv/erim_known_%.in $(build)
+	@mkdir -p $(@D)
+	$(gen_verbose) $(build) $* erl $< > $@
+
+$(includedir)/internal/erim_known_%.hrl: $(privdir)/erim_known_%.in $(build)
+	@mkdir -p $(@D)
+	$(gen_verbose) $(build) $* hrl $< > $@
 
 .PHONY: known ports distclean-known clean-ports
