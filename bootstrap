@@ -7,12 +7,7 @@ basedir=$(dirname $0)
 (
 	cd $basedir && \
 		autoreconf -ivf && \
-		$basedir/configure $@ && \
-		make -C $basedir fetch
+		$basedir/configure $@
 )
-
-echo "###"
-echo "### You can now run configure"
-echo "###"
 
 exit 0
