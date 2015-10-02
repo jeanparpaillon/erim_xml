@@ -15,10 +15,13 @@ endif
 
 include erlang.mk
 
-app:: ports
+app:: ports known
 
 ports:
 	$(MAKE) -C $(C_SRC_DIR)
+
+known:
+	$(MAKE) -C priv
 
 test-build:: ports
 
@@ -27,4 +30,9 @@ clean:: clean-ports
 clean-ports:
 	$(MAKE) -C $(C_SRC_DIR) clean
 
-.PHONY: ports clean-ports
+distclean:: distclean-known
+
+distclean-known::
+	$(MAKE) -C priv distclean
+
+.PHONY: known ports distclean-known clean-ports

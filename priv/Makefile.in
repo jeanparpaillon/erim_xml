@@ -1,16 +1,7 @@
-APP = erim_xml
-REBAR_ROOT_DIR ?= ..
-REBAR_SRC_DIRS = $(REBAR_ROOT_DIR)/src
-
-srcdirfile = erim_xml.app.src
-srcdir = $(shell \
-	if test -e $(REBAR_ROOT_DIR)/src/$(srcdirfile); then \
-	  echo $(REBAR_ROOT_DIR)/src; \
-	else \
-	  echo $(REBAR_DEPS_DIR)/erim_xml/src; \
-	fi)
-includedir = $(abspath $(srcdir)/../include)
-privdir = $(abspath $(srcdir)/../priv)
+top_srcdir = @top_srcdir@
+srcdir = $(top_srcdir)/src
+includedir = $(top_srcdir)/include
+privdir = $(top_srcdir)/priv
 
 constfiles = \
 	$(srcdir)/erim_known_attrs.erl \
@@ -34,7 +25,7 @@ $(includedir)/internal/erim_known_%.hrl: erim_known_%.in $(build)
 	@mkdir -p $(@D)
 	$(build) $* hrl $< > $@
 
-clean:
+distclean:
 	-rm -f $(CLEANFILES)
 
-.PHONY: all clean
+.PHONY: all distclean

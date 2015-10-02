@@ -7,7 +7,7 @@ AC_INIT([erim_xml],
         sed 's/-\([0-9]\)-/-0\1-/' | tr -d '\n' || echo 1]),
 	[http://github.com/lizenn/erim_xml/issues],
         [erim_xml],
-        [https://gtihub.com/lizenn/erim_xml])
+        [https://github.com/lizenn/erim_xml])
 AC_CONFIG_SRCDIR([src/erim_xml.erl])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -83,6 +83,7 @@ AS_IF([test "$HAVE_EXPAT" != "yes" -a "$enable_xml2" != "yes"], [
 AC_CONFIG_FILES([
 	Makefile
 	c_src/Makefile
+	priv/Makefile
 ])
 
 AC_OUTPUT
