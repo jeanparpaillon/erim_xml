@@ -14,9 +14,7 @@ testsuite/etest
 deps/
 /doc
 Makefile
-/autom4te.cache
 /c_src/env.mk
 /config.log
 /config.status
-/configure
-/aclocal.m4
+/autom4te.cache
