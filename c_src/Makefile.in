@@ -1,0 +1,47 @@
+top_srcdir=@top_srcdir@
+top_builddir=@top_builddir@
+
+include $(top_srcdir)/erlang.mk
+
+HAVE_LIBXML2 = @HAVE_LIBXML2@
+HAVE_EXPAT = @HAVE_EXPAT@
+
+builddir = $(top_srcdir)/priv/lib
+ports =
+ifeq ($(HAVE_LIBXML2),true)
+ports += $(builddir)/erim_xml_libxml2.so
+endif
+ifeq ($(HAVE_EXPAT),true)
+ports += $(builddir)/erim_xml_expat.so $(builddir)/erim_xml_expat_legacy.so
+endif
+
+EXPAT_CFLAGS = @EXPAT_CFLAGS@
+EXPAT_LIBS = @EXPAT_LIBS@
+EXPAT_LDFLAGS = @EXPAT_LDFLAGS@
+
+xml2_CFLAGS = @xml2_CFLAGS@
+xml2_LIBS = @xml2_LIBS@
+
+all:: $(ports)
+
+$(builddir)/erim_xml_expat.so: erim_driver.o erim_xml.o erim_xml_expat.o
+	@mkdir -p $(builddir)
+	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+
+$(builddir)/erim_xml_expat_legacy.so: erim_driver.o erim_xml.o erim_xml_legacy.o
+	@mkdir -p $(builddir)
+	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+
+$(builddir)/erim_xml_libxml2.so: erim_driver.o erim_xml.o erim_xml_libxml2.o
+	@mkdir -p $(builddir)
+	$(CC) $^ $(LDFLAGS) $(LDLIBS) $(xml2_LIBS) -o $@
+
+%.o: %.c
+	$(COMPILE_C) $(CFLAGS) $(xml2_CFLAGS) $(EXPAT_CFLAGS) -c $<
+
+clean:: clean-ports
+
+clean-ports:
+	-test -n "$(ports)" && rm -f $(ports)
+
+.PHONY: clean-ports

@@ -1,0 +1,30 @@
+PROJECT = @PACKAGE_NAME@
+PROJECT_VERSION = @PACKAGE_VERSION@
+
+top_srcdir = @top_srcdir@
+
+HAVE_EXPAT = @HAVE_EXPAT@
+HAVE_LIBXML2 = @HAVE_LIBXML2@
+
+ifeq ($(HAVE_EXPAT),true)
+ERLC_OPTS += -DHAVE_EXPAT
+endif
+ifeq ($(HAVE_LIBXML2),true)
+ERLC_OPTS += -DHAVE_LIBXML2
+endif
+
+include erlang.mk
+
+app:: ports
+
+ports:
+	$(MAKE) -C $(C_SRC_DIR)
+
+test-build:: ports
+
+clean:: clean-ports
+
+clean-ports:
+	$(MAKE) -C $(C_SRC_DIR) clean
+
+.PHONY: ports clean-ports
