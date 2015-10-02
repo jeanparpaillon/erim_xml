@@ -18,14 +18,6 @@ dnl ------------------------------------------------------------------
 dnl Versioning.
 dnl ------------------------------------------------------------------
 
-dnl Is this a final release?
-is_release=0
-GITDESC1=`git describe --abbrev=0 || echo 1`
-GITDESC2=`git describe --abbrev=4 || echo 1`
-if test "${GITDESC1}" = "${GITDESC2}"; then
-       is_release=1
-fi
-
 dnl
 dnl Compilers and all
 dnl
