@@ -2,6 +2,7 @@ top_srcdir=@top_srcdir@
 top_builddir=@top_builddir@
 
 include $(top_srcdir)/erlang.mk
+include $(CURDIR)/env.mk
 
 HAVE_LIBXML2 = @HAVE_LIBXML2@
 HAVE_EXPAT = @HAVE_EXPAT@

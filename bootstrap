@@ -1,7 +1,6 @@
 #!/usr/bin/make -f
 
 all: Makefile
-	@$(MAKE) fetch
 	@echo "###"
 	@echo "### You can now run make or configure for customization"
 	@echo "###"
