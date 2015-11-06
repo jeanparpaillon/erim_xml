@@ -23,10 +23,10 @@ main([ Type, OutType, In  ]) ->
 	"hrl" ->
 	    generate(hrl, Type, read(In), standard_io);
 	_ ->
-	    io:fwrite(standard_err, usage())
+	    io:fwrite(standard_error, usage(), [])
     end;
 main(_) ->
-    io:fwrite(standard_err, usage()).
+    io:fwrite(standard_error, usage(), []).
 
 usage() ->
     io_lib:format("Usage: ~p {nss|attrs|elems} {erl|hrl} file.in~n",
@@ -54,7 +54,7 @@ write(Str, Outfile) ->
 	{ok, Io} ->
 	    write_dev(Str, Io);
 	{error, Err} ->
-	    io:fwrite(standard_err, "IO Error: ~p~n", [Err])
+	    io:fwrite(standard_error, "IO Error: ~p~n", [Err])
     end.
 
 write_dev(Str, Dev) ->
