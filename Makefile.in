@@ -21,6 +21,8 @@ gen_src = \
 	$(srcdir)/erim_known_elems.erl \
 	$(srcdir)/erim_known_nss.erl
 
+include erlang.mk
+
 HAVE_EXPAT = @HAVE_EXPAT@
 HAVE_LIBXML2 = @HAVE_LIBXML2@
 
@@ -48,9 +50,7 @@ xml2_CFLAGS = @xml2_CFLAGS@
 xml2_LIBS = @xml2_LIBS@
 
 CFLAGS += $(EXPAT_CFLAGS) $(xml2_CFLAGS)
-LDFLAGS += $(EXPAT_LDFLAGS) $(xml2_LIBS)
-
-include erlang.mk
+LDFLAGS += $(EXPAT_LDFLAGS)
 
 app:: $(ports)
 
@@ -61,15 +61,15 @@ src/$(PROJECT).app.src: src/$(PROJECT).app.src.in
 
 $(ports_builddir)/erim_xml_expat.so: c_src/erim_driver.o c_src/erim_xml.o c_src/erim_xml_expat.o
 	@mkdir -p $(ports_builddir)
-	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+	$(link_verbose) $(CC) $^ $(LDFLAGS) $(EXPAT_LDFLAGS) -o $@ $(LDLIBS) $(EXPAT_LIBS)
 
 $(ports_builddir)/erim_xml_expat_legacy.so: c_src/erim_driver.o c_src/erim_xml.o c_src/erim_xml_legacy.o
 	@mkdir -p $(ports_builddir)
-	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(EXPAT_LDFLAGS) $(EXPAT_LIBS) -o $@
+	$(link_verbose) $(CC) $^ $(LDFLAGS) $(EXPAT_LDFLAGS) -o $@ $(LDLIBS) $(EXPAT_LIBS)
 
 $(ports_builddir)/erim_xml_libxml2.so: c_src/erim_driver.o c_src/erim_xml.o c_src/erim_xml_libxml2.o
 	@mkdir -p $(ports_builddir)
-	$(link_verbose) $(CC) $^ $(LDFLAGS) $(LDLIBS) $(xml2_LIBS) -o $@
+	$(link_verbose) $(CC) $^ $(LDFLAGS) -o $@ $(LDLIBS) $(xml2_LIBS) 
 
 test-build:: ports
 
