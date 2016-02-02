@@ -3,7 +3,7 @@
 *.o
 *.d
 *.so
-ebin/erim_xml.app
+/ebin
 /include/internal/erim_known_attrs.hrl
 /include/internal/erim_known_elems.hrl
 /include/internal/erim_known_nss.hrl
@@ -18,3 +18,4 @@ Makefile
 /config.log
 /config.status
 /autom4te.cache
+/src/erim_xml.app.src

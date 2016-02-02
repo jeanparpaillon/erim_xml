@@ -1,10 +1,9 @@
-PROJECT = @PACKAGE_NAME@
-PROJECT_VERSION = @PACKAGE_VERSION@
+PROJECT = erim_xml
+VERSION = 0.2
 
-top_srcdir = @top_srcdir@
-includedir = $(top_srcdir)/include
-privdir = $(top_srcdir)/priv
-srcdir = $(top_srcdir)/src
+includedir = include
+privdir = priv
+srcdir = src
 
 build = $(privdir)/erim_known.es
 
@@ -28,21 +27,31 @@ ifeq ($(HAVE_LIBXML2),true)
 ERLC_OPTS += -DHAVE_LIBXML2
 endif
 
+VSN = $(shell $(CURDIR)/version.sh $(VERSION))
+
+subst = sed -e 's|@VSN[@]|$(VSN)|g'
+
 include erlang.mk
 
 app:: ports
 
-$(PROJECT).d:: $(gen_src) $(gen_headers)
+$(PROJECT).d:: $(gen_src) $(gen_headers) src/$(PROJECT).app.src
+
+src/$(PROJECT).app.src: src/$(PROJECT).app.src.in
+	$(gen_verbose) $(subst) $< > $@
 
 ports:
 	$(MAKE) -C $(C_SRC_DIR)
 
 test-build:: ports
 
-clean:: clean-ports
+clean:: clean-ports clean-local
 
 clean-ports:
 	$(MAKE) -C $(C_SRC_DIR) clean
+
+clean-local:
+	-rm -f src/$(PROJECT).app.src
 
 distclean:: distclean-known
 
@@ -58,4 +67,4 @@ $(includedir)/internal/erim_known_%.hrl: $(privdir)/erim_known_%.in $(build)
 	@mkdir -p $(@D)
 	$(gen_verbose) $(build) $* hrl $< > $@
 
-.PHONY: known ports distclean-known clean-ports
+.PHONY: known ports distclean-known clean-ports clean-local

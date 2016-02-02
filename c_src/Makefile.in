@@ -1,13 +1,10 @@
-top_srcdir=@top_srcdir@
-top_builddir=@top_builddir@
-
-include $(top_srcdir)/erlang.mk
+include ../erlang.mk
 include $(CURDIR)/env.mk
 
 HAVE_LIBXML2 = @HAVE_LIBXML2@
 HAVE_EXPAT = @HAVE_EXPAT@
 
-builddir = $(top_srcdir)/priv/lib
+builddir = priv/lib
 ports =
 ifeq ($(HAVE_LIBXML2),true)
 ports += $(builddir)/erim_xml_libxml2.so
