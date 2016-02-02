@@ -4,7 +4,7 @@ include $(CURDIR)/env.mk
 HAVE_LIBXML2 = @HAVE_LIBXML2@
 HAVE_EXPAT = @HAVE_EXPAT@
 
-builddir = priv/lib
+builddir = ../priv/lib
 ports =
 ifeq ($(HAVE_LIBXML2),true)
 ports += $(builddir)/erim_xml_libxml2.so
