@@ -40,6 +40,16 @@ ifeq ($(HAVE_EXPAT),true)
 ports += $(ports_builddir)/erim_xml_expat.so $(ports_builddir)/erim_xml_expat_legacy.so
 endif
 
+EXPAT_CFLAGS = 
+EXPAT_LIBS = 
+EXPAT_LDFLAGS = 
+
+xml2_CFLAGS = -I/usr/include/libxml2
+xml2_LIBS = -lxml2
+
+CFLAGS += $(EXPAT_CFLAGS) $(xml2_CFLAGS)
+LDFLAGS += $(EXPAT_LDFLAGS) $(xml2_LIBS)
+
 include erlang.mk
 
 app:: $(ports)
