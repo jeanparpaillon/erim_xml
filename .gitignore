@@ -13,7 +13,7 @@
 testsuite/etest
 deps/
 /doc
-Makefile
+/Makefile
 /c_src/env.mk
 /config.log
 /config.status

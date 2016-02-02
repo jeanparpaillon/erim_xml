@@ -1,6 +1,10 @@
 PROJECT = erim_xml
 VERSION = 0.2
 
+VSN = $(shell $(CURDIR)/version.sh $(VERSION))
+
+subst = sed -e 's|@VSN[@]|$(VSN)|g'
+
 includedir = include
 privdir = priv
 srcdir = src
@@ -27,10 +31,6 @@ ifeq ($(HAVE_LIBXML2),true)
 ERLC_OPTS += -DHAVE_LIBXML2
 endif
 
-VSN = $(shell $(CURDIR)/version.sh $(VERSION))
-
-subst = sed -e 's|@VSN[@]|$(VSN)|g'
-
 ports_builddir = priv/lib
 ports =
 ifeq ($(HAVE_LIBXML2),true)
@@ -44,8 +44,8 @@ EXPAT_CFLAGS =
 EXPAT_LIBS = 
 EXPAT_LDFLAGS = 
 
-xml2_CFLAGS = -I/usr/include/libxml2
-xml2_LIBS = -lxml2
+xml2_CFLAGS = @xml2_CFLAGS@
+xml2_LIBS = @xml2_LIBS@
 
 CFLAGS += $(EXPAT_CFLAGS) $(xml2_CFLAGS)
 LDFLAGS += $(EXPAT_LDFLAGS) $(xml2_LIBS)
